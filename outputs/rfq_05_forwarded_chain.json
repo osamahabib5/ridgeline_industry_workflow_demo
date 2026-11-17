@@ -1,0 +1,50 @@
+{
+  "rfq_id": "rfq_05_forwarded_chain",
+  "customer_id": null,
+  "lines": [
+    {
+      "line": 1,
+      "as_written": "5 HP TEFC motor, 1800 rpm, 3 phase - qty 2",
+      "quantity": 2,
+      "unit": "EA",
+      "ridgeline_part_number": "RL110322",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "Candidate description matches all RFQ specifications: AC motor 5 HP, 1800 RPM, 3-phase, TEFC. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 2,
+      "as_written": "2\" flange gaskets 150# - qty 20",
+      "quantity": 20,
+      "unit": "EA",
+      "ridgeline_part_number": "RL118373",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "RFQ specifies 2\" flange gaskets 150#, matching candidate RL118373 which is a 2 in, 150 lb flange gasket. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 3,
+      "as_written": "food grade grease cartridges - 3 cases",
+      "quantity": 3,
+      "unit": "CS",
+      "ridgeline_part_number": "RL184696",
+      "match_method": "description",
+      "confidence": 0.6739130434782609,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "Customer could not be resolved from the RFQ."
+    }
+  ],
+  "customer_name": null,
+  "non_item_rows": []
+}

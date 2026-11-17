@@ -1,9 +1,485 @@
 {
-  "threshold": 0.6,
-  "extraction_accuracy": 0.0,
-  "match_precision": 0.0,
-  "match_recall": 0.0,
+  "threshold": 0.8,
+  "extraction_accuracy": 0.7719298245614035,
+  "match_precision": 1.0,
+  "match_recall": 0.5882352941176471,
   "additional_metrics": {
-    "status": "placeholder; run evaluation/evaluate.py to calculate"
+    "labeled_rfqs": 3,
+    "true_positives": 10,
+    "false_positives": 0,
+    "false_negatives": 7,
+    "auto_approved": 10,
+    "sent_for_review": 9,
+    "missing_output_lines": 0,
+    "extra_output_lines": 0,
+    "item_mismatch_count": 18,
+    "item_mismatches": [
+      {
+        "rfq_id": "rfq_01_email",
+        "line": 1,
+        "issues": [
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "20 ea 6204-2RS bearings",
+          "quantity": 20,
+          "unit": "EA",
+          "ridgeline_part_number": "RL171482"
+        },
+        "actual": {
+          "as_written": "20 ea 6204-2RS bearings",
+          "quantity": 20,
+          "unit": "EA",
+          "ridgeline_part_number": "RL171482",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_01_email",
+        "line": 2,
+        "issues": [
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "10 A42 v-belts",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": "RL112676"
+        },
+        "actual": {
+          "as_written": "10 A42 v-belts",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": "RL112676",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_01_email",
+        "line": 4,
+        "issues": [
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "1/2-13 x 2\" grade 8 hex bolts, 2 boxes",
+          "quantity": 2,
+          "unit": "BX",
+          "ridgeline_part_number": "RL165435"
+        },
+        "actual": {
+          "as_written": "1/2-13 x 2\" grade 8 hex bolts, 2 boxes",
+          "quantity": 2,
+          "unit": "BX",
+          "ridgeline_part_number": "RL165435",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_01_email",
+        "line": 5,
+        "issues": [
+          "unexpected_part_number"
+        ],
+        "mismatched_extraction_fields": [],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "Same grease cartridges as last order, 2 cases",
+          "quantity": 2,
+          "unit": "CS",
+          "ridgeline_part_number": null
+        },
+        "actual": {
+          "as_written": "Same grease cartridges as last order, 2 cases",
+          "quantity": 2,
+          "unit": "CS",
+          "ridgeline_part_number": "RL195561",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 1,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-BB-6206ZZ",
+          "quantity": 12,
+          "unit": "EA",
+          "ridgeline_part_number": "RL178907"
+        },
+        "actual": {
+          "as_written": "APX-BB-6206ZZ — Ball bearing 6206 ZZ shielded",
+          "quantity": 12,
+          "unit": "EA",
+          "ridgeline_part_number": "RL178907",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 2,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-VB-B55",
+          "quantity": 4,
+          "unit": "EA",
+          "ridgeline_part_number": "RL125203"
+        },
+        "actual": {
+          "as_written": "APX-VB-B55 — V-belt B55",
+          "quantity": 4,
+          "unit": "EA",
+          "ridgeline_part_number": "RL125203",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 3,
+        "issues": [
+          "extraction_mismatch",
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-HF-JIC08-90",
+          "quantity": 25,
+          "unit": "EA",
+          "ridgeline_part_number": "RL120374"
+        },
+        "actual": {
+          "as_written": "APX-HF-JIC08-90 — JIC -08 x 1/2 NPT 90 elbow",
+          "quantity": 25,
+          "unit": "EA",
+          "ridgeline_part_number": "RL120374",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 4,
+        "issues": [
+          "extraction_mismatch",
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-FL-HE10",
+          "quantity": 6,
+          "unit": "EA",
+          "ridgeline_part_number": "RL194646"
+        },
+        "actual": {
+          "as_written": "APX-FL-HE10 — Hyd. return element 10 micron cellulose",
+          "quantity": 6,
+          "unit": "EA",
+          "ridgeline_part_number": "RL194646",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 5,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-GL-A4-L",
+          "quantity": 12,
+          "unit": "PR",
+          "ridgeline_part_number": "RL131850"
+        },
+        "actual": {
+          "as_written": "APX-GL-A4-L — Cut resistant glove A4, Large",
+          "quantity": 12,
+          "unit": "PR",
+          "ridgeline_part_number": "RL131850",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_02_clearwater",
+        "line": 6,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "APX-BV-SS100",
+          "quantity": 3,
+          "unit": "EA",
+          "ridgeline_part_number": "RL185180"
+        },
+        "actual": {
+          "as_written": "APX-BV-SS100 — 1\" ball valve, 316 SS, full port",
+          "quantity": 3,
+          "unit": "EA",
+          "ridgeline_part_number": "RL185180",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 1,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-220418 3/4 brass ball valve FP",
+          "quantity": 15,
+          "unit": "EA",
+          "ridgeline_part_number": "RL134741"
+        },
+        "actual": {
+          "as_written": "NF-220418 — 3/4 brass ball valve FP",
+          "quantity": 15,
+          "unit": "EA",
+          "ridgeline_part_number": "RL134741",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 2,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-220420 1\" brass ball valve FP",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": "RL179507"
+        },
+        "actual": {
+          "as_written": "NF-220420 — 1\" brass ball valve FP",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": "RL179507",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 3,
+        "issues": [
+          "missing_part_number"
+        ],
+        "mismatched_extraction_fields": [],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "same as above but 1/2\"",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": "RL172063"
+        },
+        "actual": {
+          "as_written": "same as above but 1/2\"",
+          "quantity": 10,
+          "unit": "EA",
+          "ridgeline_part_number": null,
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 4,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-118203 2\" flange gasket 150#",
+          "quantity": 40,
+          "unit": "EA",
+          "ridgeline_part_number": "RL118373"
+        },
+        "actual": {
+          "as_written": "NF-118203 — 2\" flange gasket 150#",
+          "quantity": 40,
+          "unit": "EA",
+          "ridgeline_part_number": "RL118373",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 5,
+        "issues": [
+          "extraction_mismatch",
+          "correct_part_number_needs_review"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-118204 3\" flange gasket 150#",
+          "quantity": 40,
+          "unit": "EA",
+          "ridgeline_part_number": "RL124050"
+        },
+        "actual": {
+          "as_written": "NF-118204 — 3\" flange gasket 150#",
+          "quantity": 40,
+          "unit": "EA",
+          "ridgeline_part_number": "RL124050",
+          "needs_review": true
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 6,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-310077 AW46 hyd oil 5 gal",
+          "quantity": 6,
+          "unit": "EA",
+          "ridgeline_part_number": "RL107944"
+        },
+        "actual": {
+          "as_written": "NF-310077 — AW46 hyd oil 5 gal",
+          "quantity": 6,
+          "unit": "EA",
+          "ridgeline_part_number": "RL107944",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 7,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-505512 20x20x2 pleated filter MERV 8",
+          "quantity": 4,
+          "unit": "CS",
+          "ridgeline_part_number": "RL149009"
+        },
+        "actual": {
+          "as_written": "NF-505512 — 20x20x2 pleated filter MERV 8",
+          "quantity": 4,
+          "unit": "CS",
+          "ridgeline_part_number": "RL149009",
+          "needs_review": false
+        }
+      },
+      {
+        "rfq_id": "rfq_03_tricounty",
+        "line": 8,
+        "issues": [
+          "extraction_mismatch"
+        ],
+        "mismatched_extraction_fields": [
+          "as_written"
+        ],
+        "missing_output_fields": [],
+        "expected": {
+          "as_written": "NF-999120 Chlorine residual test kit",
+          "quantity": 2,
+          "unit": "EA",
+          "ridgeline_part_number": null
+        },
+        "actual": {
+          "as_written": "NF-999120 — Chlorine residual test kit",
+          "quantity": 2,
+          "unit": "EA",
+          "ridgeline_part_number": null,
+          "needs_review": true
+        }
+      }
+    ],
+    "extraction_fields_compared": 57,
+    "per_field_extraction_accuracy": {
+      "as_written": 0.3157894736842105,
+      "quantity": 1.0,
+      "unit": 1.0
+    },
+    "per_rfq": {
+      "rfq_01_email": {
+        "extraction_accuracy": 1.0,
+        "match_precision": 1.0,
+        "match_recall": 0.25,
+        "true_positives": 1,
+        "false_positives": 0,
+        "false_negatives": 3,
+        "missing_output_lines": 0,
+        "extra_output_lines": 0,
+        "item_mismatch_count": 4
+      },
+      "rfq_02_clearwater": {
+        "extraction_accuracy": 0.6666666666666666,
+        "match_precision": 1.0,
+        "match_recall": 0.6666666666666666,
+        "true_positives": 4,
+        "false_positives": 0,
+        "false_negatives": 2,
+        "missing_output_lines": 0,
+        "extra_output_lines": 0,
+        "item_mismatch_count": 6
+      },
+      "rfq_03_tricounty": {
+        "extraction_accuracy": 0.7083333333333334,
+        "match_precision": 1.0,
+        "match_recall": 0.7142857142857143,
+        "true_positives": 5,
+        "false_positives": 0,
+        "false_negatives": 2,
+        "missing_output_lines": 0,
+        "extra_output_lines": 0,
+        "item_mismatch_count": 8
+      }
+    }
   }
 }

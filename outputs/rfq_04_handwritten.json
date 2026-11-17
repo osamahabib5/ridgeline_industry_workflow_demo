@@ -1,0 +1,22 @@
+{
+  "rfq_id": "rfq_04_handwritten",
+  "customer_id": null,
+  "lines": [
+    {
+      "line": 1,
+      "as_written": "entire RFQ",
+      "quantity": null,
+      "unit": null,
+      "ridgeline_part_number": null,
+      "match_method": null,
+      "confidence": 0.0,
+      "needs_review": true,
+      "flags": [
+        "stub"
+      ],
+      "note": "Handwritten RFQ intentionally left as a stub for manual review."
+    }
+  ],
+  "customer_name": null,
+  "non_item_rows": []
+}

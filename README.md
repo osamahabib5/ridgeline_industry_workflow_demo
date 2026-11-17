@@ -36,7 +36,7 @@ The fallback provider is DeepSeek, configured with `DEEPSEEK_API_KEY`, `DEEPSEEK
 
 ## Evaluation
 
-`evaluation/evaluate.py` compares the three labeled RFQs with their separate output files. Extraction accuracy is the fraction of available `as_written`, `quantity`, and `unit` ground-truth fields that match after whitespace/case normalization. Match precision is correct non-null predicted part numbers divided by all non-null predictions; recall is correct predictions divided by labeled non-null expected part numbers. `threshold` records the `0.60` description-match threshold.
+`evaluation/ris_evaluation.py` compares the three labeled RFQs with their separate output files; `evaluation/evaluate.py` is a compatibility entry point. Extraction accuracy compares `as_written`, `quantity`, and `unit` by line. Match precision and recall use `needs_review` to identify auto-approved matches. `additional_metrics.item_mismatches` lists line-level missing output, extraction, and part-number mismatches with expected and actual values. The recorded `threshold` is metadata (`0.80`) and does not change the pipeline's `0.60` description-match cutoff.
 
 The checked-in `evaluation/results.json` is an explicit placeholder because the pipeline and evaluator have not been run. The available labeled set is small; grow it with reviewed examples across all input formats, product categories, ambiguous descriptions, unit variants, discontinued items, and forwarded or messy requests. Keep separate held-out examples to limit tuning leakage.
 

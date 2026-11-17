@@ -100,6 +100,79 @@ def _ratio(numerator: int, denominator: int) -> float:
     return numerator / denominator if denominator else 0.0
 
 
+def _line_diagnostic(
+    stem: str,
+    number: int,
+    expected: Optional[dict],
+    actual: Optional[dict],
+) -> Optional[dict]:
+    issues = []
+    mismatched_fields = []
+    missing_fields = []
+
+    if expected is None:
+        issues.append("unexpected_output_line")
+    elif actual is None:
+        issues.append("missing_output_line")
+        mismatched_fields.extend(EXTRACTION_FIELDS)
+    else:
+        for field in EXTRACTION_FIELDS:
+            if field not in actual:
+                missing_fields.append(field)
+                mismatched_fields.append(field)
+            elif not _field_matches(field, expected[field], actual[field]):
+                mismatched_fields.append(field)
+        if missing_fields:
+            issues.append("missing_output_field")
+        if any(field not in missing_fields for field in mismatched_fields):
+            issues.append("extraction_mismatch")
+
+        expected_part = expected["expected_part_number"]
+        actual_part = actual["ridgeline_part_number"]
+        if expected_part is None and actual_part is not None:
+            issues.append("unexpected_part_number")
+        elif expected_part is not None and actual_part is None:
+            issues.append("missing_part_number")
+        elif expected_part is not None and actual_part != expected_part:
+            issues.append("incorrect_part_number")
+        elif expected_part is not None and actual["needs_review"]:
+            issues.append("correct_part_number_needs_review")
+        elif expected_part is None and not actual["needs_review"]:
+            issues.append("auto_approved_without_expected_match")
+
+    if not issues:
+        return None
+
+    expected_item = None
+    if expected is not None:
+        expected_item = {
+            "as_written": expected["as_written"],
+            "quantity": expected["quantity"],
+            "unit": expected["unit"],
+            "ridgeline_part_number": expected["expected_part_number"],
+        }
+
+    actual_item = None
+    if actual is not None:
+        actual_item = {
+            "as_written": actual.get("as_written"),
+            "quantity": actual.get("quantity"),
+            "unit": actual.get("unit"),
+            "ridgeline_part_number": actual["ridgeline_part_number"],
+            "needs_review": actual["needs_review"],
+        }
+
+    return {
+        "rfq_id": stem,
+        "line": number,
+        "issues": issues,
+        "mismatched_extraction_fields": mismatched_fields,
+        "missing_output_fields": missing_fields,
+        "expected": expected_item,
+        "actual": actual_item,
+    }
+
+
 def _evaluate_rfq(stem: str) -> dict:
     key_path = KEY_DIR / f"{stem}.json"
     output_path = OUTPUT_DIR / f"{stem}.json"
@@ -145,6 +218,17 @@ def _evaluate_rfq(stem: str) -> dict:
     false_negatives = expected_matches - true_positives
     extraction_correct = sum(field_correct.values())
     extraction_total = sum(field_total.values())
+    item_mismatches = []
+    for number in sorted(expected):
+        diagnostic = _line_diagnostic(
+            stem, number, expected[number], predicted.get(number)
+        )
+        if diagnostic is not None:
+            item_mismatches.append(diagnostic)
+    for number in sorted(predicted.keys() - expected.keys()):
+        diagnostic = _line_diagnostic(stem, number, None, predicted[number])
+        if diagnostic is not None:
+            item_mismatches.append(diagnostic)
 
     return {
         "extraction_correct": extraction_correct,
@@ -158,6 +242,8 @@ def _evaluate_rfq(stem: str) -> dict:
         "sent_for_review": sent_for_review,
         "missing_output_lines": missing_lines,
         "extra_output_lines": extra_lines,
+        "item_mismatches": item_mismatches,
+        "item_mismatch_count": len(item_mismatches),
         "extraction_accuracy": _ratio(extraction_correct, extraction_total),
         "match_precision": _ratio(true_positives, true_positives + false_positives),
         "match_recall": _ratio(true_positives, true_positives + false_negatives),
@@ -209,6 +295,14 @@ def calculate_metrics() -> dict:
             "sent_for_review": totals["sent_for_review"],
             "missing_output_lines": totals["missing_output_lines"],
             "extra_output_lines": totals["extra_output_lines"],
+            "item_mismatch_count": sum(
+                len(rfq["item_mismatches"]) for rfq in per_rfq.values()
+            ),
+            "item_mismatches": [
+                diagnostic
+                for stem in LABELED_RFQS
+                for diagnostic in per_rfq[stem]["item_mismatches"]
+            ],
             "extraction_fields_compared": totals["extraction_total"],
             "per_field_extraction_accuracy": {
                 field: _ratio(per_field_correct[field], per_field_total[field])
@@ -226,6 +320,7 @@ def calculate_metrics() -> dict:
                         "false_negatives",
                         "missing_output_lines",
                         "extra_output_lines",
+                        "item_mismatch_count",
                     )
                 }
                 for stem, metrics in per_rfq.items()
@@ -277,7 +372,8 @@ def main() -> int:
         f"extraction_accuracy={results['extraction_accuracy']:.3f} "
         f"(TP={results['additional_metrics']['true_positives']}, "
         f"FP={results['additional_metrics']['false_positives']}, "
-        f"FN={results['additional_metrics']['false_negatives']})"
+        f"FN={results['additional_metrics']['false_negatives']}, "
+        f"item_mismatches={results['additional_metrics']['item_mismatch_count']})"
     )
     print(f"Wrote {RESULTS_PATH.relative_to(ROOT)}")
     return 0

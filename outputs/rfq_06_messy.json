@@ -1,0 +1,95 @@
+{
+  "rfq_id": "rfq_06_messy",
+  "customer_id": null,
+  "lines": [
+    {
+      "line": 1,
+      "as_written": "bolts 3/8 x 1 1/2 gr5 - 300 (we usually get boxes)",
+      "quantity": 3,
+      "unit": "BX",
+      "ridgeline_part_number": "RL142504",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "Matches 3/8-16 x 1-1/2 in grade 5 bolt. RFQ requests 300 pieces, equivalent to 3 boxes of 100. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 2,
+      "as_written": "nitrile gloves L - a few boxes",
+      "quantity": null,
+      "unit": "BX",
+      "ridgeline_part_number": "RL153354",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "Matches nitrile gloves size L; quantity unspecified ('a few boxes'). Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 3,
+      "as_written": "NF-778812 x 4 (whatever you have thats equivalent)",
+      "quantity": null,
+      "unit": null,
+      "ridgeline_part_number": null,
+      "match_method": null,
+      "confidence": 0.0,
+      "needs_review": true,
+      "flags": [
+        "no_match_found",
+        "customer_unresolved"
+      ],
+      "note": "RFQ references NF-778812 but provides no description or cross-reference to identify an equivalent among the supplied candidates. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 4,
+      "as_written": "6205 bearings sealed qty 24",
+      "quantity": 24,
+      "unit": "EA",
+      "ridgeline_part_number": "RL104165",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "RFQ specifies 6205 bearings sealed qty 24; candidate RL104165 is a 6205-2RS rubber sealed bearing. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 5,
+      "as_written": "forklift tires 18x7-8 x4",
+      "quantity": 4,
+      "unit": null,
+      "ridgeline_part_number": null,
+      "match_method": null,
+      "confidence": 0.0,
+      "needs_review": true,
+      "flags": [
+        "llm_request_failed",
+        "no_match_found",
+        "customer_unresolved"
+      ],
+      "note": "No verified catalog match was found. Customer could not be resolved from the RFQ."
+    },
+    {
+      "line": 6,
+      "as_written": "o-rings 214 buna",
+      "quantity": null,
+      "unit": "PK",
+      "ridgeline_part_number": "RL165909",
+      "match_method": "llm",
+      "confidence": 0.75,
+      "needs_review": true,
+      "flags": [
+        "customer_unresolved"
+      ],
+      "note": "Matched O-ring AS568-214, Buna-N 70A from RFQ 'o-rings 214 buna'. No quantity or unit specified. Customer could not be resolved from the RFQ."
+    }
+  ],
+  "customer_name": null,
+  "non_item_rows": []
+}
