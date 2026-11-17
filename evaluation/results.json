@@ -1,0 +1,9 @@
+{
+  "threshold": 0.6,
+  "extraction_accuracy": 0.0,
+  "match_precision": 0.0,
+  "match_recall": 0.0,
+  "additional_metrics": {
+    "status": "placeholder; run evaluation/evaluate.py to calculate"
+  }
+}

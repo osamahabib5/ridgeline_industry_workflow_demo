@@ -1,15 +1,69 @@
-# Data pack: FDE Challenge (AI/ML & Data): Ridgeline Quote Desk
+# Ridgeline Quote Desk
 
-All data is fictional.
+## Repository
 
-| File | What it is |
-|---|---|
-| `rfqs/` | 6 incoming RFQs: email text, PDF, Excel, a photo of a handwritten list, a forwarded email chain, and a messy one |
-| `products.csv` | About 200 Ridgeline products |
-| `cross_reference.csv` | Competitor part numbers mapped to Ridgeline part numbers (incomplete on purpose) |
-| `customers.csv` | Ridgeline customers |
-| `answer_key/` | Expected line items and matches for `rfq_01`, `rfq_02` and `rfq_03`. Only your evaluation script may read it, never your pipeline |
-| `ai_logging_prompt.txt` | The first message for your AI assistant. It sets up the interaction log in `.chat-history/log.md` |
-| `check_submission.py` | Checks your deliverables and packs them into the zip you submit. Copy it to your repository root. You can run it any time; run it before each push and as the last step of your recording |
+Public GitHub repository: https://github.com/osamahabib5/ridgeline_industry_workflow_demo
 
-There is no answer key for `rfq_04` to `rfq_06`. Run your pipeline on `rfq_05` and `rfq_06` as they are. The photo (`rfq_04`) can be a stub; the challenge description shows the stub format. Every RFQ still needs its output file.
+## How to Run
+
+In PowerShell, create and activate the project virtual environment, then install dependencies:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
+if (-not (Test-Path .env)) { Copy-Item .env.example .env }
+```
+
+Set `DEEPSEEK_API_KEY` in the local `.env` file. Never commit `.env`; `.gitignore` excludes it. Run the pipeline and, separately, the evaluator:
+
+```powershell
+python pipeline.py
+python evaluation/evaluate.py
+python check_submission.py
+```
+
+`pipeline.py` writes one JSON file per RFQ under `outputs/`. The evaluator reads `answer_key/` only when explicitly run and writes `evaluation/results.json`. The submission checker also creates a zip at the repository root.
+
+## Approach
+
+The pipeline extracts line items from text, PDF, and spreadsheet RFQs, resolves customer names against `customers.csv`, then matches direct Ridgeline part numbers, exact competitor cross-references, catalog descriptions, and finally DeepSeek candidates. Product status and `replaced_by` are checked before a match is accepted. Ambiguous, low-confidence, discontinued, or failed matches are flagged for human review. The handwritten image is intentionally emitted as a one-line stub.
+
+The most consequential decision is to trust verified identifiers before fuzzy or model-based matching, and never let a language model override a verified exact match. Confidence below `0.80` or any flag sets `needs_review` to true. Description matches use a `0.60` threshold; LLM matches use `0.75` confidence.
+
+The fallback provider is DeepSeek, configured with `DEEPSEEK_API_KEY`, `DEEPSEEK_MODEL`, and `DEEPSEEK_BASE_URL`. The default endpoint is `https://api.deepseek.com`; this project does not configure a geographic region, so none is claimed.
+
+## Evaluation
+
+`evaluation/evaluate.py` compares the three labeled RFQs with their separate output files. Extraction accuracy is the fraction of available `as_written`, `quantity`, and `unit` ground-truth fields that match after whitespace/case normalization. Match precision is correct non-null predicted part numbers divided by all non-null predictions; recall is correct predictions divided by labeled non-null expected part numbers. `threshold` records the `0.60` description-match threshold.
+
+The checked-in `evaluation/results.json` is an explicit placeholder because the pipeline and evaluator have not been run. The available labeled set is small; grow it with reviewed examples across all input formats, product categories, ambiguous descriptions, unit variants, discontinued items, and forwarded or messy requests. Keep separate held-out examples to limit tuning leakage.
+
+## Production
+
+![Ridgeline Quote Desk workflow](ris_workflow.png)
+
+```mermaid
+flowchart TD
+    A[RFQs: text, PDF, XLSX, handwritten image] --> B[Parse and extract item rows]
+    B --> C[Resolve customer from customers.csv]
+    C --> D{Exact Ridgeline part number?}
+    D -- Yes --> H[Validate active status and replacement]
+    D -- No --> E{Exact cross-reference?}
+    E -- Yes --> H
+    E -- No --> F[Description similarity]
+    F -- Score >= 0.60 --> H
+    F -- Score < 0.60 or semantic ambiguity --> G[DeepSeek top-10 candidates]
+    G --> H
+    H --> I[Validate schema, confidence, flags, and review status]
+    I --> J[Atomic JSON outputs in outputs/]
+    I --> K[Errors become reviewable JSON lines]
+    J --> L[Separate evaluation reads answer_key/ when invoked]
+```
+
+- Keep API credentials in environment configuration; rotate keys and never include them in logs or source control.
+- Validate all outputs before downstream use and route flagged or low-confidence lines to a human reviewer.
+- Monitor parsing failures, unmatched rates, latency, and model/API errors; retain sanitized error details for diagnosis.
+- Add reviewed RFQs to evaluation data and monitor quality separately for each file format.
+- Detailed assignment-specific Part 4 requirements were not present in the repository; these bullets cover only the operational requirements stated here.
